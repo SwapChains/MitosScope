@@ -1,0 +1,61 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="MitosScope.App.App"
+             xmlns:local="using:MitosScope.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <!-- Overlay panel look -->
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="#C0101418" />
+            <Setter Property="BorderBrush" Value="#30FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+        <!-- Same thickness in both modes, so entering edit mode doesn't shift the content. -->
+        <Style Selector="Border.panel.editing">
+            <Setter Property="BorderBrush" Value="#FF3BA7FF" />
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="Foreground" Value="#A0FFFFFF" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="TextBlock.muted">
+            <Setter Property="Foreground" Value="#90FFFFFF" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="TextBlock.error">
+            <Setter Property="Foreground" Value="#FFFF7070" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <!-- Fluent gives horizontal bars MinWidth=200 in a ":horizontal" trigger, so they overflow in
+             narrow panels. The override needs the same pseudo-class, a plain "ProgressBar" setter loses. -->
+        <Style Selector="ProgressBar:horizontal">
+            <Setter Property="MinWidth" Value="0" />
+        </Style>
+        <Style Selector="ProgressBar">
+            <Setter Property="MinHeight" Value="4" />
+            <Setter Property="Height" Value="4" />
+        </Style>
+    </Application.Styles>
+</Application>

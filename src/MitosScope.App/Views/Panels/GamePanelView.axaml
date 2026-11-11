@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="using:MitosScope.App.ViewModels.Panels"
+             x:Class="MitosScope.App.Views.Panels.GamePanelView"
+             x:DataType="panels:GamePanelViewModel">
+    <!-- One Grid per row so optional rows (mode, match) collapse completely when hidden. -->
+    <StackPanel Spacing="4">
+        <StackPanel>
+            <TextBlock Classes="title" Text="Match" />
+            <TextBlock Classes="muted" Text="{Binding Tracker.Current.MatchSubtitleText}"
+                       IsVisible="{Binding Tracker.Current.ShowMatchSubtitle, FallbackValue=False}" />
+        </StackPanel>
+
+        <TextBlock Classes="muted" Text="No client connected"
+                   IsVisible="{Binding !Tracker.HasCurrent}" />
+
+        <StackPanel Spacing="2" IsVisible="{Binding Tracker.Current.Game, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Alive" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.AliveText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding Tracker.Current.HasMatchName, FallbackValue=False}">
+                <TextBlock Classes="label" Text="Room" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Game.Match}"
+                           TextTrimming="CharacterEllipsis" Margin="8,0,0,0" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Type" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.RoomTypeText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding Tracker.Current.HasModeTitle, FallbackValue=False}">
+                <TextBlock Classes="label" Text="Mode" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Game.ModeTitle}"
+                           TextTrimming="CharacterEllipsis" Margin="8,0,0,0" />
+            </Grid>
+            <!-- Alive: live values. Dead / in the menu: the last recorded match (labels change too). -->
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="{Binding Tracker.Current.MassLabel}" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.MassText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Cells" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Game.Cells}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="{Binding Tracker.Current.LeaderboardLabel}" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.LeaderboardText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="{Binding Tracker.Current.MatchExpLabel}" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.MatchExpText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="{Binding Tracker.Current.EatenPlayersLabel}" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.EatenPlayersText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="{Binding Tracker.Current.EatenFoodLabel}" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.EatenFoodText}" />
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

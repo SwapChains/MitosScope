@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="using:MitosScope.App.ViewModels.Panels"
+             x:Class="MitosScope.App.Views.Panels.BattlePassPanelView"
+             x:DataType="panels:BattlePassPanelViewModel">
+    <!-- /v1/battlepass, polled with the other account sections (every 60 s). -->
+    <StackPanel Spacing="4">
+        <TextBlock Classes="title" Text="Battle Pass" />
+
+        <TextBlock Classes="muted" Text="No client connected"
+                   IsVisible="{Binding !Tracker.HasCurrent}" />
+
+        <TextBlock Classes="muted" Text="Loading…"
+                   IsVisible="{Binding !Tracker.Current.HasBattlePass, FallbackValue=False}" />
+
+        <StackPanel Spacing="2" IsVisible="{Binding Tracker.Current.HasBattlePass, FallbackValue=False}">
+            <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding Tracker.Current.ShowBattlePassTier, FallbackValue=False}">
+                <TextBlock Classes="label" Text="Tier" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.BattlePassTierText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Type" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.BattlePassTypeText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding Tracker.Current.ShowBattlePassExpires, FallbackValue=False}">
+                <TextBlock Classes="label" Text="Expires" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.BattlePassExpiresText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Current level" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.CurrentLevelText}" />
+            </Grid>
+            <Grid ColumnDefinitions="Auto,*">
+                <TextBlock Classes="label" Text="Next level" />
+                <TextBlock Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.NextLevelText}" />
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:panels="using:MitosScope.App.ViewModels.Panels"
+             x:Class="MitosScope.App.Views.Panels.ProfilePanelView"
+             x:DataType="panels:ProfilePanelViewModel">
+    <StackPanel Spacing="4">
+        <TextBlock Classes="title" Text="All Time Stats" />
+
+        <TextBlock Classes="muted" Text="No client connected"
+                   IsVisible="{Binding !Tracker.HasCurrent}" />
+
+        <!-- "Games" left out on purpose: the API counts one game per mode played (modes[].games stays at 1). -->
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="2"
+              IsVisible="{Binding Tracker.Current.Profile, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}">
+            <TextBlock Grid.Row="0" Classes="label" Text="Time played" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.TotalDurationText}" />
+
+            <TextBlock Grid.Row="1" Classes="label" Text="Max score" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Profile.MaxScore, StringFormat='{}{0:N0}'}" />
+
+            <TextBlock Grid.Row="2" Classes="label" Text="Kills" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Profile.EnemyNr, StringFormat='{}{0:N0}'}" />
+
+            <TextBlock Grid.Row="3" Classes="label" Text="Splits" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.Profile.SplitNr, StringFormat='{}{0:N0}'}" />
+
+            <TextBlock Grid.Row="4" Classes="label" Text="Ranked W / L" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Classes="value" Text="{Binding Tracker.Current.RankedText}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

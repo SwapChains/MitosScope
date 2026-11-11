@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\avalonia-logo.ico</ApplicationIcon>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- Needed by [LibraryImport] in Overlay/WindowInterop.cs -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <!-- Game "items" texture atlas, kept at the repo root. -->
+    <AvaloniaResource Include="..\..\items.png" Link="Assets\Atlas\items.png" />
+    <AvaloniaResource Include="..\..\items.xml" Link="Assets\Atlas\items.xml" />
+  </ItemGroup>
+
+  <!-- App key: kept at the repo root (git-ignored) and copied next to the exe. -->
+  <ItemGroup>
+    <None Include="..\..\API_KEY.txt" Link="API_KEY.txt" CopyToOutputDirectory="PreserveNewest" Condition="Exists('..\..\API_KEY.txt')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="12.1.5" />
+    <PackageReference Include="Avalonia.Desktop" Version="12.1.5" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.5" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.5" />
+    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="SharpHook" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MitosScope.Core\MitosScope.Core.csproj" />
+  </ItemGroup>
+</Project>

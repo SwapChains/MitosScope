@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:MitosScope.App.ViewModels"
+             xmlns:panels="using:MitosScope.App.ViewModels.Panels"
+             x:Class="MitosScope.App.Views.Panels.EquipmentPanelView"
+             x:DataType="panels:EquipmentPanelViewModel">
+    <UserControl.Styles>
+        <!-- Durability: blue normally, amber at <= 50 %, red at <= 25 %. -->
+        <Style Selector="ProgressBar.medium">
+            <Setter Property="Foreground" Value="#FFFFB020" />
+        </Style>
+        <Style Selector="ProgressBar.low">
+            <Setter Property="Foreground" Value="#FFFF4D4D" />
+        </Style>
+        <Style Selector="TextBlock.low">
+            <Setter Property="Foreground" Value="#FFFF7070" />
+        </Style>
+
+        <!-- Responsive bar: next to the sprite normally, on its own line below the sprite when the
+             panel is too narrow for both. Only one of the two bar hosts is visible at a time. -->
+        <Style Selector="Panel.narrowBar">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <ContainerQuery Name="equipList" Query="max-width:170">
+            <Style Selector="Panel.wideBar">
+                <Setter Property="IsVisible" Value="False" />
+            </Style>
+            <Style Selector="Panel.narrowBar">
+                <Setter Property="IsVisible" Value="True" />
+            </Style>
+        </ContainerQuery>
+    </UserControl.Styles>
+
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Classes="title" Text="Equipment" Margin="0,0,0,6" />
+
+        <TextBlock DockPanel.Dock="Top" Classes="muted" Text="No client connected"
+                   IsVisible="{Binding !Tracker.HasCurrent}" />
+
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding Tracker.Current.EquippedItems}"
+                          Container.Name="equipList" Container.Sizing="Width">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:EquippedItemViewModel">
+                        <Grid ColumnDefinitions="36,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" Margin="0,0,0,6">
+                            <Border Width="36" Height="36" CornerRadius="4" Background="#20FFFFFF">
+                                <Image Source="{Binding Sprite}" Stretch="Uniform" Margin="2" />
+                            </Border>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="3">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                                    <TextBlock FontSize="12" FontWeight="SemiBold" Text="{Binding Name}"
+                                               TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Name}" />
+                                    <TextBlock Grid.Column="1" FontSize="11" Foreground="#A0FFFFFF"
+                                               Classes.low="{Binding IsLow}" Text="{Binding DetailText}" />
+                                </Grid>
+                                <!-- Wide layout: bar under the name, next to the sprite. -->
+                                <Panel Classes="wideBar">
+                                    <ProgressBar Minimum="0" Maximum="1" MinWidth="0" Value="{Binding DurabilityFraction}"
+                                                 IsVisible="{Binding HasDurability}"
+                                                 Classes.medium="{Binding IsMedium}" Classes.low="{Binding IsLow}" />
+                                </Panel>
+                            </StackPanel>
+                            <!-- Narrow layout: bar on its own line below the sprite, full width. -->
+                            <Panel Grid.Row="1" Grid.ColumnSpan="2" Classes="narrowBar" Margin="0,4,0,0">
+                                <ProgressBar Minimum="0" Maximum="1" MinWidth="0" Value="{Binding DurabilityFraction}"
+                                             IsVisible="{Binding HasDurability}"
+                                             Classes.medium="{Binding IsMedium}" Classes.low="{Binding IsLow}" />
+                            </Panel>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

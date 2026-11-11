@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MitosScope.App/MitosScope.App.csproj" />
+    <Project Path="src/MitosScope.Core/MitosScope.Core.csproj" />
+  </Folder>
+</Solution>

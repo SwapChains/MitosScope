@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:panels="using:MitosScope.App.ViewModels.Panels"
+        x:Class="MitosScope.App.Overlay.PanelWindow"
+        x:DataType="panels:PanelViewModel"
+        Title="{Binding Title}"
+        WindowDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        CanResize="{Binding IsEditMode}"
+        MinWidth="120" MinHeight="48">
+
+    <!-- In edit mode the panel gets a blue border: drag the edges/corners to resize, anywhere
+         else to move, ✕ to hide the panel (re-enable it from the tray menu).
+         In locked mode the window is click-through (see OverlayManager / WindowInterop). -->
+    <Border x:Name="Root"
+            Classes="panel"
+            Classes.editing="{Binding IsEditMode}"
+            PointerPressed="OnPanelPressed"
+            PointerMoved="OnPanelPointerMoved">
+        <Grid>
+            <ContentControl Content="{Binding}" Margin="10,8" />
+
+            <Button IsVisible="{Binding IsEditMode}"
+                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,5,5,0" Width="20" Height="20" Padding="0"
+                    CornerRadius="4" Cursor="Hand"
+                    Background="#40FF4D4D" Foreground="White"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    ToolTip.Tip="Hide this panel (show it again from the tray icon)"
+                    Click="OnCloseClick">
+                <TextBlock Text="✕" FontSize="11" />
+            </Button>
+        </Grid>
+    </Border>
+</Window>

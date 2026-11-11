@@ -1,0 +1,23 @@
+# App key: never commit (ADDON_API.md §1)
+API_KEY.txt
+
+# Private reference docs (addon API spec and bug report): kept locally only
+ADDON_API*.md
+Mitos.is Addon API - Bug report.pdf
+
+# Videos: GitHub rejects files over 100 MB (the showcase .mp4 is ~180 MB)
+*.mp4
+
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+*.rsuser
